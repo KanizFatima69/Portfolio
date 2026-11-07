@@ -1,8 +1,17 @@
 const $=id=>document.getElementById(id);
 $('lg').textContent=NAME.split(' ')[0].toLowerCase();$('em').textContent='✉ '+EMAIL;$('em').href='mailto:'+EMAIL;
 $('ph').textContent='☎ '+PHONE;$('ph').href='tel:'+PHONE;$('li').href=LINK;$('intro').textContent=INTRO;$('ft').textContent='© 2026 '+NAME;
-const nm=$('name');let i=0;
-('Hi, I’m '+NAME).split('').forEach((ch,k)=>{const s=document.createElement('span');s.textContent=ch===' '?'\u00A0':ch;if(k>=4)s.className='c';s.style.animationDelay=(.3+k*.06)+'s';nm.appendChild(s)});
+const nm=$('name');let k=0;
+[[['Hi,',''],['I','c'],['am','c']],NAME.split(' ').map(w=>[w,'c'])].forEach(words=>{
+  const line=document.createElement('div');
+  words.forEach(([word,cls],wi)=>{
+    const w=document.createElement('b');w.className='w';
+    word.split('').forEach(ch=>{const s=document.createElement('span');s.textContent=ch;if(cls)s.className=cls;s.style.animationDelay=(.3+k++*.06)+'s';w.appendChild(s)});
+    if(wi)line.appendChild(document.createTextNode(' '));
+    line.appendChild(w);
+  });
+  nm.appendChild(line);
+});
 let ri=0,ci=0,del=false;const rl=$('role');
 (function t(){const x=ROLES[ri];rl.textContent=x.slice(0,ci);if(!del&&ci===x.length){del=true;return setTimeout(t,1400)}if(del&&ci===0){del=false;ri=(ri+1)%ROLES.length}ci+=del?-1:1;setTimeout(t,del?40:90)})();
 $('blob').innerHTML=PHOTO?`<img src="${PHOTO}" alt="${NAME}">`:`<svg viewBox="0 0 200 220"><path d="M20 220c0-48 34-72 80-72s80 24 80 72z" fill="#2B1B3D"/><rect x="86" y="118" width="28" height="40" rx="12" fill="#f2b896"/><ellipse cx="100" cy="92" rx="42" ry="48" fill="#f7c7a6"/><path d="M56 88c-6-46 30-62 56-54 24 4 38 26 32 54-10-22-28-30-48-28-18 2-32 12-40 28z" fill="#2B1B3D"/><circle cx="84" cy="96" r="4" fill="#2B1B3D"/><circle cx="116" cy="96" r="4" fill="#2B1B3D"/><path d="M88 114q12 10 24 0" stroke="#2B1B3D" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="76" cy="108" r="6" fill="#F0603E" opacity=".35"/><circle cx="124" cy="108" r="6" fill="#F0603E" opacity=".35"/></svg>`;
@@ -30,15 +39,15 @@ function render(){
   mon.style.opacity=mIn*(1-mOut);
   mon.style.transform=`translateY(${(1-mIn)*80}px) scale(${.7+.3*mIn+.04*grow-.4*mOut}) rotateY(${(1-mIn)*-25+mx*7}deg) rotateX(${-my*5}deg)`;
   shot.style.transform=`scale(${.3+.7*grow})`;
-  const pIn=ease(seg(p,.55,.64)),drop=bounce(seg(p,.68,.82)),pOut=ease(seg(p,.88,.98));
+  const pIn=ease(seg(p,.55,.64)),drop=bounce(seg(p,.68,.82)),pOut=ease(seg(p,.9,.99));
   phone.style.opacity=pIn*(1-pOut);
-  phone.style.transform=`translateY(${(1-pIn)*120-pOut*50}px) translateZ(${-pOut*1000}px) scale(${1+(1-pIn)*.4-pOut*.8}) rotateX(${drop*72}deg)`;
+  phone.style.transform=`translateY(${(1-pIn)*120-pOut*50}px) translateZ(${-pOut*1000}px) scale(${1+(1-pIn)*.4-pOut*.8}) rotateX(${drop*58}deg)`;
   const pr=phone.getBoundingClientRect();
   ground.style.top=(phone.offsetTop+phone.offsetHeight+4)+'px';
   ground.style.opacity=pIn*(1-pOut)*(1-drop*.6);
   const dq=seg(p,.78,.86);
   [$('d1'),$('d2')].forEach((d,n)=>{d.style.top=(phone.offsetTop+phone.offsetHeight-14)+'px';d.style.left=`calc(50% + ${(n?1:-1)*(80+dq*60)}px)`;d.style.opacity=dq>0&&dq<1?(1-dq)*.8:0;d.style.transform=`scale(${1+dq*2})`});
-  w2.style.opacity=ease(seg(p,.78,.84));scrim.style.opacity=1-ease(seg(p,.76,.84));
+  w2.style.opacity=1;scrim.style.opacity=.5*(1-ease(seg(p,.74,.82)));
   const sh=dq>0&&dq<.2?(1-dq/.2)*7:0;stick.style.transform=sh?`translate(${(Math.random()-.5)*sh}px,${(Math.random()-.5)*sh}px)`:'';
   const sw=$('sw');sw.style.top=(phone.offsetTop+phone.offsetHeight)+'px';sw.style.opacity=dq>0&&dq<.8?(1-dq/.8)*.8:0;sw.style.transform=`translate(-50%,-50%) rotateX(70deg) scale(${.2+dq*5})`;
   const cv2=ease(seg(p,.14,.24))*(1-ease(seg(p,.38,.46))),sc=ease(seg(p,.38,.46));
